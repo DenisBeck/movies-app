@@ -1,0 +1,26 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: auto;
+	max-width: 1010px;
+	width: 100%;
+}
+
+body {
+	font-family: "Inter";
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.movies {
+	padding: 20px 35px;
+}

@@ -1,0 +1,13 @@
+.movies-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 950px) {
+  .movies-list {
+    grid-template-columns: 1fr;
+  }
+}
