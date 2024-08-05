@@ -31,9 +31,6 @@ export default class MovieApi {
     if (!this.genres.length) {
       const response = await fetch(`${this.baseUrl}/genre/movie/list?language=en`, options);
       const { genres } = await response.json();
-      if (!genres) {
-        throw new Error('Данные не получены');
-      }
       this.genres = genres;
     }
   }
@@ -49,12 +46,9 @@ export default class MovieApi {
     };
 
     this.setGenres(options);
-    if (this.setGenres.length) {
+    if (this.setGenres && this.setGenres.length) {
       const response = await fetch(`${this.baseUrl}/search/movie?query=${keyword}`, options);
       const { results } = await response.json();
-      if (!results) {
-        throw new Error('Данные не получены');
-      }
       return this.getConvertedMovies(results);
     }
     return null;

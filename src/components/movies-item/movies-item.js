@@ -22,7 +22,7 @@ function MoviesItem({ data }) {
         <Title level={4} className="movies-item-title">
           {data.title}
         </Title>
-        <Text type="secondary" class="movies-item-date">
+        <Text type="secondary" className="movies-item-date">
           {data.date}
         </Text>
         <ul className="movies-item-genres-list">
@@ -32,7 +32,7 @@ function MoviesItem({ data }) {
             </Text>
           ))}
         </ul>
-        <Paragraph tooltip className="movies-item-description">
+        <Paragraph className="movies-item-description">
           {clipText(data.overview, 150)}
         </Paragraph>
       </Flex>
