@@ -35,7 +35,7 @@ export default class MovieApi {
     }
   }
 
-  async getMoviesByKeyword(keyword) {
+  async getMoviesByKeyword({ keyword, page }) {
     const options = {
       method: 'GET',
       headers: {
@@ -47,9 +47,11 @@ export default class MovieApi {
 
     this.setGenres(options);
     if (this.setGenres && this.setGenres.length) {
-      const response = await fetch(`${this.baseUrl}/search/movie?query=${keyword}`, options);
-      const { results } = await response.json();
-      return this.getConvertedMovies(results);
+      const response = await fetch(`${this.baseUrl}/search/movie?query=${keyword}&page=${page}`, options);
+
+      const { results, total_results: totalCount } = await response.json();
+      const movies = await this.getConvertedMovies(results);
+      return { movies, totalCount };
     }
     return null;
   }

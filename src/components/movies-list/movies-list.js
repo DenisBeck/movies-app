@@ -1,10 +1,11 @@
 import MoviesItem from '../movies-item';
+
 import './movies-list.css';
 
-function MoviesList({ movies }) {
+function MoviesList({ data }) {
   return (
     <ul className="movies-list">
-      {movies.map((movie) => (
+      {data.map((movie) => (
         <MoviesItem key={movie.id} data={movie} />
       ))}
     </ul>

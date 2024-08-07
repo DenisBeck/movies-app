@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;
   gap: 35px;
-  flex-wrap: wrap;
+  margin-bottom: 35px;
 }
 
 @media (max-width: 950px) {

@@ -1,11 +1,9 @@
-import { Spin } from "antd";
+import { Spin } from 'antd';
 
 import './loader.css';
 
-function Loader() {
-  return (
-    <Spin size='large' fullscreen />
-  )
+function Loader({ fullscreen }) {
+  return <Spin size="large" fullscreen={!!fullscreen} />;
 }
 
 export default Loader;

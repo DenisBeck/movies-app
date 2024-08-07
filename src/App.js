@@ -1,53 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Offline } from 'react-detect-offline';
-import { Alert } from 'antd';
+import _ from 'lodash';
+import { Alert, Pagination } from 'antd';
 
-import MovieApi from './services/movieAPI';
 import MoviesList from './components/movies-list';
-import Loader from './components/loader';
-import Error from './components/error';
+import SearchInput from './components/search-input';
+import FetchProvider from './helpers/fetch-provider';
 
 import './App.css';
 
 const { ErrorBoundary } = Alert;
 
 export default function App() {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
+  const [query, setQuery] = useState({ keyword: '', page: 1 });
 
-  const movieApi = new MovieApi();
-  let content = '';
+  const debounced = _.debounce((value) => setQuery((state) => ({ ...state, keyword: value })), 500);
 
-  const renderContent = async () => {
-    try {
-      const data = await movieApi.getMoviesByKeyword('return');
-      setMovies(data);
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
-    }
+  const onChangeSearch = (searchValue) => {
+    debounced(searchValue);
   };
 
-  useEffect(() => {
-    renderContent();
-  }, []);
-
-  if (loading) {
-    content = <Loader />;
-  } else if (movies.length) {
-    content = <MoviesList movies={movies} />;
-  } else {
-    content = <Error message={error.message} />;
-  }
+  const onChangePage = (page) => {
+    setQuery((state) => ({ ...state, page }));
+  };
 
   return (
     <ErrorBoundary>
       <Offline>
-        <Alert style={{ fontSize: '24px' }} type='warning' message="You're offline right now. Check your connection." />
+        <Alert style={{ fontSize: '24px' }} type="warning" message="You're offline right now. Check your connection." />
       </Offline>
-      <main className="movies">{content}</main>
+      <main className="movies">
+        <SearchInput onChangeSearch={onChangeSearch} />
+        <FetchProvider query={query}>
+          {({ movies, totalCount }) => (
+            <>
+              <MoviesList data={movies} />
+              <Pagination
+                total={totalCount}
+                align="center"
+                pageSize={20}
+                current={query.page}
+                onChange={onChangePage}
+                showSizeChanger={false}
+              />
+            </>
+          )}
+        </FetchProvider>
+      </main>
     </ErrorBoundary>
   );
 }
