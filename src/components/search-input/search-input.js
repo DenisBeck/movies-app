@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import './search-input.css';
 
-function SearchInput({ onChangeSearch }) {
-  const [search, setSearch] = useState('');
+function SearchInput({ initialQuery, onChangeSearch }) {
+  const [search, setSearch] = useState(initialQuery);
 
   const changeHandler = (e) => {
     const searchValue = e.target.value;
