@@ -28,4 +28,14 @@ ul {
 	flex-direction: column;
 	background-color: transparent;
 }
+@media (max-width: 750px) {
+	.movies {
+		padding: 20px;
+	}
+}
+@media (max-width: 480px) {
+	.movies {
+		padding: 20px 10px;
+	}
+}
 

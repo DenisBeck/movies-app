@@ -1,14 +1,17 @@
-import { useContext, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Flex, Typography, Rate } from 'antd';
 
+import { useData } from '../../helpers/data-context-provider';
+
 import './movies-item.css';
-import { GenresContext } from '../../helpers/genres-context-provider';
 
 const { Title, Paragraph, Text } = Typography;
 
 function MoviesItem({ onAddRating, data }) {
-  const genres = useContext(GenresContext);
-  const [rating, setRating] = useState(data.rating);
+  const { genres, ratings } = useData();
+  const [rating, setRating] = useState(ratings[data.id]);
+
+  const textRef = useRef(null);
 
   const getColor = (rate) => {
     if (rate <= 3) {
@@ -23,14 +26,6 @@ function MoviesItem({ onAddRating, data }) {
     return '#66E900';
   };
 
-  const clipText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      const newText = text.slice(0, maxLength);
-      return `${newText.slice(0, newText.lastIndexOf(' '))} ...`;
-    }
-    return text;
-  };
-
   const changeRating = (value) => {
     setRating(value);
     onAddRating(value, data.id);
@@ -41,7 +36,7 @@ function MoviesItem({ onAddRating, data }) {
       <div className="movies-item-images">
         <img src={data.image} alt={data.title} />
       </div>
-      <Flex vertical gap="small" className="movies-item-content">
+      <Flex vertical gap={10} className="movies-item-info">
         <Title level={4} className="movies-item-title">
           {data.title}
         </Title>
@@ -58,12 +53,23 @@ function MoviesItem({ onAddRating, data }) {
             );
           })}
         </ul>
-        <Paragraph className="movies-item-description">{clipText(data.overview, 150)}</Paragraph>
-        <Rate className="movies-rating" count={10} onChange={changeRating} value={rating} />
-        <div className="movies-rating-value" style={{ borderColor: rating ? getColor(rating) : '#ddd' }}>
-          {rating}
-        </div>
       </Flex>
+      <Flex vertical gap={10} className="movies-item-content">
+        <Paragraph
+          ref={textRef}
+          className="movies-item-description"
+          ellipsis={{
+            rows: 5,
+            expandable: 'collapsible',
+          }}
+        >
+          {data.overview}
+        </Paragraph>
+        <Rate className="movies-rating" count={10} onChange={changeRating} value={rating} />
+      </Flex>
+      <div className="movies-rating-value" style={{ borderColor: rating ? getColor(rating) : '#ddd' }}>
+        {rating || 0}
+      </div>
     </li>
   );
 }

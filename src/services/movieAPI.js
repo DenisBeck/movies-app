@@ -33,36 +33,52 @@ export default class MovieApi {
 
   async getGenres() {
     const response = await fetch(`${this.baseUrl}/genre/movie/list?language=en`, this.options);
+    if (response.status !== 200) {
+      const { status_message: statusMessage } = await response.json();
+      throw new Error(statusMessage);
+    }
     const { genres } = await response.json();
     return genres;
   }
 
-  async getMoviesByKeyword(keyword, page) {
-    const response = await fetch(`${this.baseUrl}/search/movie?query=${keyword}&page=${page}`, this.options);
+  getMoviesByKeyword = async (query, page) => {
+    const response = await fetch(`${this.baseUrl}/search/movie?query=${query}&page=${page}`, this.options);
+    if (response.status !== 200) {
+      const { status_message: statusMessage } = await response.json();
+      throw new Error(statusMessage);
+    }
     const { results, total_results: totalCount } = await response.json();
     const movies = await this.getConvertedMovies(results);
     return { movies, totalCount };
-  }
+  };
 
   async getGuestSessionId() {
     const response = await fetch(`${this.baseUrl}/authentication/guest_session/new`, this.options);
+    if (response.status !== 200) {
+      const { status_message: statusMessage } = await response.json();
+      throw new Error(statusMessage);
+    }
     const { success, guest_session_id: guestSessionId } = await response.json();
     const sessionId = success && guestSessionId;
 
     return sessionId;
   }
 
-  async getRatedMovies(sessionId, page) {
+  getRatedMovies = async (sessionId, page) => {
     const response = await fetch(
       `${this.baseUrl}/guest_session/${sessionId}/rated/movies?page=${page}&sort_by=created_at.asc&api_key=6248929f9e6e92e7167ed8a72749e3c7`
     );
+    if (response.status !== 200) {
+      const { status_message: statusMessage } = await response.json();
+      throw new Error(statusMessage);
+    }
     const data = await response.json();
-    if (data.status_code === 7) {
+    if (!data.results) {
       return { movies: [] };
     }
     const movies = await this.getConvertedMovies(data.results);
     return { movies, totalCount: data.total_results };
-  }
+  };
 
   async addRating(rate, movieId, sessionId) {
     const options = {

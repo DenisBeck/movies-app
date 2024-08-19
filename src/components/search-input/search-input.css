@@ -1,3 +1,8 @@
 .search-input-container {
   margin-bottom: 35px;
 }
+@media (max-width: 750px) {
+  .search-input-container {
+    margin-bottom: 20px;
+  }
+}
