@@ -42,7 +42,7 @@ export default class MovieApi {
   }
 
   getMoviesByKeyword = async (query, page) => {
-    const response = await fetch(`${this.baseUrl}/search/movie?query=${query}&page=${page}`, this.options);
+    const response = await fetch(`${this.baseUrl}/search/movie?query=${query}&page=${page}&api_key=6248929f9e6e92e7167ed8a72749e3c7`, this.options);
     if (response.status !== 200) {
       const { status_message: statusMessage } = await response.json();
       throw new Error(statusMessage);
