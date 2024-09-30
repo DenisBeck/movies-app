@@ -16,7 +16,7 @@ const initialData = {
     search: 1,
     rated: 1,
   },
-  sessionId: null,
+  sessionId: localStorage.getItem('sessionId') || null,
   movieApiMethod: null,
 };
 
