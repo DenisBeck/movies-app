@@ -17,6 +17,7 @@ function MainPage({ className }) {
 
   async function createGuestSession() {
     const id = await movieAPI.getGuestSessionId();
+    localStorage.setItem('sessionId', id);
     dispatch({
       type: 'setSessionId',
       sessionId: id,
@@ -85,7 +86,9 @@ function MainPage({ className }) {
   };
 
   useEffect(() => {
-    createGuestSession();
+    if (!localStarage.getItem('sessionId')) {
+      createGuestSession();
+    }
     fetchGenres();
     onChangeTabItem('1');
   }, []);
