@@ -183,7 +183,23 @@ const questions = [
   "Что такое OWASP Top 10?"
 ];
 
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+    // Pick a remaining element...
+    const randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    // eslint-disable-next-line no-param-reassign
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+}
+
 const filtered = questions.filter((item, index) => [1, 10,13,16,17,19,20,21,35,44,45,49,51,55,56,60,61,62,68,70,73,74,77,78,79,83,85,88,92,98,99,102,103,104,105,106,109,110,112,113,114,117,118,122,123,124,128,129,130,131,133,134,136,144,150,153,154,155,157,158,161,163,167,170,172,175,177].includes(index));
+shuffle(filtered);
 
 export default function App() {
   return (
