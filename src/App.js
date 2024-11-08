@@ -205,6 +205,8 @@ const questions = [
   'Разница между let, const и var?',
 ];
 
+const filtered = questions.filter((item, index) => [2,5,7,9,12,14,15,16,23,27,30,34,36,39,43,45,48,54,61,63,75,76,80,85,86,88,89,91,92,93,97,99,100,107,110,113,114,124,125,129,130,132,134,140,154,156,158,160,161,165,166,169,173,178,179,184,186,191,195,196,197].includes(index + 1))
+
 // function shuffle(array) {
 //   let currentIndex = array.length;
 
@@ -229,7 +231,7 @@ export default function App() {
     <div className='container'>
       {
         // eslint-disable-next-line react/no-array-index-key
-        questions.map((item, index) => <div key={index}><span>{index + 1}. </span> {item}</div>)
+        filtered.map((item, index) => <div key={index}><span>{index + 1}. </span> {item}</div>)
       }
     </div>
   );
