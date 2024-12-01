@@ -250,7 +250,6 @@ import './App.css';
 // ];
 
 const questions = [
-  [
     'Что такое CSS-атрибут (attr)?',
     'Сколько аргументов принимает addEventListener?',
     'Что такое прогрессивный рендеринг?',
@@ -744,7 +743,6 @@ const questions = [
     'Что такое элемент <output> в HTML5?',
     'Разница между feature detection, feature inference и анализом строки user-agent?',
     'Что такое безопасные (Secure) и HttpOnly cookies?',
-  ],
 ];
 
 
